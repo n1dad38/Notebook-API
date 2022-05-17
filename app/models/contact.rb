@@ -5,7 +5,16 @@ class Contact < ApplicationRecord
         "Nilton Lima"
     end
 
+    def kind_description
+        self.kind.description
+    end
+
     def as_json(options={})
-        super(methods: :author, root: true, only: [:name, :email, :kind_id])
+        super(
+            root: true,
+            methods: [:author, :kind_description],
+            only: [:name, :email, :kind_id],
+            include: {kind: {only: :description}}
+        )
     end
 end
